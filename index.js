@@ -12,11 +12,26 @@ function renderItems(){
 		itemsBox.style = "display: block;";
 		emptyHolder.style = "display: none;";
 		itemsBox.innerHTML = "";
+		var task_name;
 		for(var i=0;i<items.length;i++){
-			itemsBox.innerHTML += '<li><label><input type="checkbox"><span> '+items[i].task_name+'</span></label></li>';
+			task_name = items[i].task_name;
+			itemsBox.appendChild(createTaskElement(task_name));
 		}
 		console.log("rended");
 	}
+}
+
+function createTaskElement(task_name){
+	var elInput = document.createElement("input");
+	var elSpan = document.createElement("span");
+	var elLabel = document.createElement("label");
+	var elLi = document.createElement("li");
+	elInput.type = "checkbox";
+	elSpan.innerText = task_name;
+	elLabel.appendChild(elInput);
+	elLabel.appendChild(elSpan);
+	elLi.appendChild(elLabel);
+	return elLi;
 }
 
 function getTaskName(){
@@ -41,5 +56,3 @@ inputAdd.addEventListener("keydown", function(e){
 }, false);
 
 itemsBox.addEventListener("new_item", renderItems, false);
-
-

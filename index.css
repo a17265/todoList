@@ -34,6 +34,11 @@ div.items ul li label{
 	padding-left: 10px;
 }
 
+div.items ul li label span{
+	padding-left: 5px;
+	user-select: none;
+}
+
 div.items ul li label:hover{
 	cursor: pointer;
 }
