@@ -2,22 +2,28 @@ var inputAdd = document.getElementById("add");
 var itemsBox = document.getElementById("items");
 var emptyHolder = document.getElementById("empty");
 var items = [];
-itemsBox.style = "display: none;";
-
-
-
+var itemBoxStatus = "empty"; // empty | filled
 
 function renderItems(){
 	if(items.length > 0){
-		itemsBox.style = "display: block;";
-		emptyHolder.style = "display: none;";
 		itemsBox.innerHTML = "";
 		var task_name;
+		itemBoxStatus = "filled";
+		manageItemBoxStatus();
 		for(var i=0;i<items.length;i++){
 			task_name = items[i].task_name;
 			itemsBox.appendChild(createTaskElement(task_name));
 		}
 		console.log("rended");
+	}
+}
+
+function getTaskName(){
+	if(inputAdd.value.trim().length > 0){
+		return inputAdd.value;
+	}
+	else{
+		return false;
 	}
 }
 
@@ -34,12 +40,15 @@ function createTaskElement(task_name){
 	return elLi;
 }
 
-function getTaskName(){
-	if(inputAdd.value.trim().length > 0){
-		return inputAdd.value;
+
+function manageItemBoxStatus(){
+	if(itemBoxStatus == "empty"){
+		itemsBox.style = "display: none;";
+		emptyHolder.style = "display: block;";
 	}
 	else{
-		return false;
+		itemsBox.style = "display: block;";
+		emptyHolder.style = "display: none;";
 	}
 }
 
@@ -50,9 +59,10 @@ inputAdd.addEventListener("keydown", function(e){
 			"task_name": task_name,
 			"checked": false
 		});
-		itemsBox.dispatchEvent(new Event("new_item"));
+		itemsBox.dispatchEvent(new Event("itemsHasChanged"));
 		inputAdd.value = "";
 	}
 }, false);
 
-itemsBox.addEventListener("new_item", renderItems, false);
+itemsBox.addEventListener("itemsHasChanged", renderItems, false);
+manageItemBoxStatus();
